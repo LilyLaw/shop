@@ -3,6 +3,7 @@ import Vue from 'vue';
 import IndexV from './components/index.vue'
 import ProductList from './components/productlist.vue'
 import OrderList from './components/orderlist.vue'
+import Eproduct from './components/eproduct.vue'
 
 Vue.use(Router);
 
@@ -13,6 +14,8 @@ const routes = [
 		path:'/productlist',component:ProductList
 	},{
 		path:'/orderlist',component:OrderList
+	},{
+		path:'/addproduct',component:Eproduct
 	}
 ];
 
