@@ -21,8 +21,10 @@
 </script>
 
 <style lang="less" scoped>
+	@import  './components/common/common.less';
+	
 	.content{
-		width: calc(100% - 10rem);
+		width: calc(100% - @leftMenuWidth);
 		position: fixed;
 		right: 0;
 		top: 5rem;
