@@ -1,7 +1,7 @@
 <template>
 	<div class="lll-toolbar">
 		<div class="delete">
-			<Btndanger incon="删除" />
+			<Btn incon="删除" toope="/delete" type="danger"/>
 		</div>
 		<div class="search">
 			<input type="text" class="inputtext">
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-	import Btndanger from './btn-danger.vue';
+	import Btn from './btn.vue';
 	
 	export default {
 		methods:{
@@ -23,7 +23,7 @@
 			}
 		},
 		components:{
-			Btndanger
+			Btn
 		}
 	}
 </script>

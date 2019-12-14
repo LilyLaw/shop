@@ -1,9 +1,11 @@
 <template>
 	<div>
 		<PageTitle pagetitle='产品列表'></PageTitle>
-		<Toolbar></Toolbar>
+		<Toolbar />
 		<ListTable v-if="loadedTableData" :tabledata='tableData' ></ListTable>
 		<Loading v-else>加载中</Loading>
+		<Toast />
+		<!-- <Dialog /> -->
 	</div>
 	
 </template>
@@ -15,6 +17,8 @@
 	import Toolbar from './common/toolbar.vue';
 	import ListTable from './common/listtable.vue';
 	import Loading from './common/loading.vue';
+	import Toast from './common/toast.vue';
+	// import Dialog from './common/dialog.vue';
 	
 	export default {
 		name: 'ProductList',
@@ -36,7 +40,6 @@
 			axios.get(`${basicConfig.apihost}productlist`)
 				.then(function(res){
 					that.tableData.thead = ['名称','价格','状态'];
-					// that.tableData.tbody = res.data;
 					res.data.map((item)=>{
 						let tmp = [item._id,item.product_name,item.product_price,item.product_status===0?'已下架':'在售'];
 						that.tableData.tbody.push(tmp);
@@ -46,7 +49,7 @@
 				});
 		},
 		components:{
-			PageTitle,Toolbar,ListTable,Loading
+			PageTitle,Toolbar,ListTable,Loading,Toast//,Dialog
 		}
 	}
 </script>

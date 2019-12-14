@@ -11,8 +11,8 @@
 			<tr v-for="(item,i) in renderTbody" :key='i'>
 				<td v-for="(value,index) in item"  :key='(index)' v-html="value"></td>
 				<td>
-					<Btnbasic incon="编辑" toUrl='/addproduct'></Btnbasic>
-					<Btndanger incon="删除" toUrl='/baidu'></Btndanger>
+					<Btn incon="编辑" toUrl='/addproduct/item[0]' type="basic" />
+					<Btn incon="删除" toope='/delete' type="danger" />
 				</td>
 			</tr>
 		</tbody>
@@ -20,8 +20,7 @@
 </template>
 
 <script>
-	import Btnbasic from './btn-basic.vue';
-	import Btndanger from './btn-danger.vue';
+	import Btn from './btn.vue';
 
 	export default{
 		name: 'ListTable',
@@ -38,7 +37,7 @@
 			}
 		},
 		components:{
-			Btnbasic,Btndanger
+			Btn
 		}
 	}
 </script>

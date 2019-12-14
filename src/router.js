@@ -15,7 +15,7 @@ const routes = [
 	},{
 		path:'/orderlist',component:OrderList
 	},{
-		path:'/addproduct',component:Eproduct
+		path:'/addproduct/:id?',component:Eproduct
 	}
 ];
 

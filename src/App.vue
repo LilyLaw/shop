@@ -22,7 +22,7 @@
 	@import './components/common/common.less';
 	@import './components/common/commonVariable.less';
 	@import './assets/iconfont/iconfont.css';
-		
+
 	.content{
 		width: calc(100% - @leftMenuWidth);
 		position: fixed;
