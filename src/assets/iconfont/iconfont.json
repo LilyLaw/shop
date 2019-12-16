@@ -48,6 +48,13 @@
       "unicode_decimal": 58909
     },
     {
+      "icon_id": "1191612",
+      "name": "radio",
+      "font_class": "radio",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
       "icon_id": "1842139",
       "name": "plus",
       "font_class": "plus",
@@ -74,6 +81,13 @@
       "font_class": "info",
       "unicode": "e611",
       "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "3716165",
+      "name": "radio",
+      "font_class": "radio1",
+      "unicode": "e601",
+      "unicode_decimal": 58881
     },
     {
       "icon_id": "4933430",

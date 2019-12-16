@@ -42,6 +42,7 @@
 		width: @leftMenuWidth;
 		position: fixed;
 		height: 100%;
+		box-shadow: 4px 0 8px #eee;
 		
 		.logo{
 			width: 100%;

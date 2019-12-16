@@ -27,7 +27,7 @@
 		width: calc(100% - @leftMenuWidth);
 		position: fixed;
 		right: 0;
-		padding: 1rem;
+		padding: 1.5rem 2rem;
 		box-sizing: border-box;
 	}
 </style>
