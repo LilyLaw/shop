@@ -2,16 +2,17 @@
 	<table class="lll-listtable">
 		<thead>
 			<tr>
-				<th><i class="icon iconfont iconcheckbox-non"></i></th>
-				<th v-for="(item,i) in tabledata.thead" :key='i'>{{item}}</th>
+				<th><Checkicon /></th>
+				<th v-for="(item,i) of tabledata.thead" :key='i'>{{item}}</th>
 				<th>操作</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr v-for="(item,i) in renderTbody" :key='i'>
-				<td v-for="(value,index) in item"  :key='(index)' v-html="value"></td>
+			<tr v-for="(item,i) of tabledata.tbody" :key='i'>
+				<td><Checkicon/></td>
+				<td v-for="(v,index) of item" :key='index' v-show="index!==0">{{v}}</td>
 				<td>
-					<Btn incon="编辑" toUrl='/addproduct/item[0]' type="basic" />
+					<Btn incon="编辑" :toUrl='"/addproduct/"+item[0]' type="basic" />
 					<Btn incon="删除" toope='/delete' type="danger" />
 				</td>
 			</tr>
@@ -21,23 +22,17 @@
 
 <script>
 	import Btn from './btn.vue';
+	import Checkicon from './checkicon.vue';
 
 	export default{
 		name: 'ListTable',
 		props: ['tabledata'],
 		computed:{
-			renderTbody: function(){
-				let tpm =[];
-				this.tabledata.tbody.map((item)=>{
-					let tpm_c = item;
-					tpm_c[0] = `<i class="icon iconfont iconcheckbox-non" itemid=${item[0]}></i>`;
-					tpm.push(tpm_c);
-				});
-				return tpm;
-			}
+			
 		},
 		components:{
-			Btn
+			Btn,
+			Checkicon
 		}
 	}
 </script>
