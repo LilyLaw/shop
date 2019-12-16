@@ -1,12 +1,17 @@
 <template>
 	<router-link v-if="toUrl" class="lll-btn" :to="toUrl" :class="type">{{this.incon}}</router-link>
-	<span v-else class="lll-btn" :class="type">{{this.incon}}</span>
+	<span v-else class="lll-btn" :class="type" @click="clickme">{{this.incon}}</span>
 </template>
 
 <script>
 	export default{
 		name: 'Btn',
-		props: ['toUrl','incon','type']
+		props: ['toUrl','incon','type'],
+		methods:{
+			clickme(){
+				this.$emit('deleteme');
+			}
+		}
 	}
 </script>
 

@@ -39,6 +39,7 @@
 			let that = this;
 			axios.get(`${basicConfig.apihost}productlist`)
 				.then(function(res){
+					window.console.log(res.data);
 					that.tableData.thead = ['名称','价格','状态'];
 					res.data.map((item)=>{
 						let tmp = [item._id,item.product_name,item.product_price,item.product_status===0?'已下架':'在售'];

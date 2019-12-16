@@ -13,7 +13,7 @@
 				<td v-for="(v,index) of item" :key='index' v-show="index!==0">{{v}}</td>
 				<td>
 					<Btn incon="编辑" :toUrl='"/addproduct/"+item[0]' type="basic" />
-					<Btn incon="删除" toope='/delete' type="danger" />
+					<Btn incon="删除" toope='/delete' type="danger" @deleteme='deletemeproduct(item[0])'/>
 				</td>
 			</tr>
 		</tbody>
@@ -23,12 +23,23 @@
 <script>
 	import Btn from './btn.vue';
 	import Checkicon from './checkicon.vue';
+	import axios from 'axios';
+	import basicConfig from '../../basicconfig.js';
 
 	export default{
 		name: 'ListTable',
 		props: ['tabledata'],
-		computed:{
-			
+		methods:{
+			deletemeproduct(id){
+				window.console.log(id);
+				axios.get(`${basicConfig.apihost}product/delete/${id}`)
+					.then(function(res){
+						window.console.log(res);
+					})
+					.catch(function(err){
+						throw err;
+					})
+			}
 		},
 		components:{
 			Btn,
