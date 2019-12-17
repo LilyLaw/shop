@@ -23,10 +23,10 @@
 				</li>
 				<li class="lll-e-f-desc">
 					<label for="">详情：</label>
-					<!-- <input type="text" name="pdes" :value="productData.product_description"> -->
 					<froala :tag="'textarea'" name="pdes" :config="config" v-model="productData.product_description"></froala>
 				</li>
 				<li>
+					<label for=""></label>
 					<input type="text" name="pid" hidden="hidden" :value="productData._id">
 					<input type="submit">
 				</li>
@@ -56,12 +56,11 @@
 				config: {
 					placeholderText: 'Edit Your Product Description Here!',
 					events: {
-						'initialized': function () {
-							// 	window.console.log(this.html.get());
-						}
+						// 'initialized': function () {
+						// 	window.console.log(this.html.get());
+						// }
 					}
-				},
-				model: 'Edit Your Content Here!'
+				}
 			}
 		},
 		computed: {
@@ -70,12 +69,6 @@
 			},
 			productstatus: function(){
 				return this.productData.product_status === 1;
-			}
-		},
-		methods:{
-			setvalue(){
-				window.console.log(222);
-				return false;
 			}
 		},
 		created:function(){
@@ -97,6 +90,7 @@
 </script>
 
 <style scoped lang="less">
+	@import './common/commonVariable.less';
 	.lll-eproduct-form{
 		margin-top: 2rem;
 		padding: 1rem;
@@ -109,21 +103,32 @@
 				padding: 0.7rem 0;
 				label{
 					width: 30%;
-					min-width: 6.25rem;
-					max-width: 12.5rem;
+					min-width: 5rem;
+					max-width: 8rem;
 					text-align: right;
 				}
-				input{
+				input[type='text'],input[type='number']{
 					width: 70%;
 					min-width: 25rem;
 					max-width: 37.5rem;
+				}
+				input[type='submit']{
+					min-width: 5rem;
+					height: 2.5rem;
+					border: none;
+					background: @lllblue;
+					color: @fontcolorwhite;
+					border-radius: @borderradius;
+					cursor: pointer;
+					letter-spacing: 0.1rem;
+					&:hover{
+						opacity: 0.8;
+					}
 				}
 			}
 			li.lll-e-f-radio{
 				input{
 					width: 20px;
-					min-width: unset;
-					max-width: unset;
 				}
 			}
 			li.lll-e-f-desc{

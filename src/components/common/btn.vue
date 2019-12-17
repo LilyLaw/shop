@@ -36,7 +36,7 @@
 		border:1px solid @lllred;
 	}
 	.cancel{
-		color: @fontcolor;
+		color: @fontcolorblack;
 		background: @lllcancel;
 		border: 1px solid @lllblue;
 	}

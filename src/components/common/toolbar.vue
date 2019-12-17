@@ -2,6 +2,7 @@
 	<div class="lll-toolbar">
 		<div class="delete">
 			<Btn incon="删除" toope="/delete" type="danger"/>
+			<Btn incon="新增" toUrl="/addproduct" type="basic"/>
 		</div>
 		<div class="search">
 			<input type="text" class="inputtext">
