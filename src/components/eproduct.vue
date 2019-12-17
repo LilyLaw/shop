@@ -21,10 +21,10 @@
 						<input type="radio" name='status' value="0" :checked="!productstatus"> 下架
 					</span>
 				</li>
-				<li>
+				<li class="lll-e-f-desc">
 					<label for="">详情：</label>
 					<!-- <input type="text" name="pdes" :value="productData.product_description"> -->
-					<froala :tag="'textarea'" :config="config" v-model="model"></froala>
+					<froala :tag="'textarea'" name="pdes" :config="config" v-model="productData.product_description"></froala>
 				</li>
 				<li>
 					<input type="text" name="pid" hidden="hidden" :value="productData._id">
@@ -54,21 +54,28 @@
 					product_status:''
 				},
 				config: {
+					placeholderText: 'Edit Your Product Description Here!',
 					events: {
-						'froalaEditor.initialized': function () {
-							window.console.log('initialized')
+						'initialized': function () {
+							// 	window.console.log(this.html.get());
 						}
 					}
 				},
 				model: 'Edit Your Content Here!'
 			}
 		},
-		computed: {	// 计算属性
+		computed: {
 			getReqUrl:function(){
 				return basicConfig.apihost+'addproduct';
 			},
 			productstatus: function(){
 				return this.productData.product_status === 1;
+			}
+		},
+		methods:{
+			setvalue(){
+				window.console.log(222);
+				return false;
 			}
 		},
 		created:function(){
@@ -78,16 +85,13 @@
 				axios.get(`${basicConfig.apihost}product/${pid}`)
 					.then((res)=>{
 						this.productData = res.data[0];
-					})
-					.catch((err)=>{
-						throw err;
-					});
+					}).catch((err)=>{ throw err; });
 			}else{
 				this.pageTitle = '新增产品';
 			}
 		},
 		components:{
-			PageTitle//,VueFroala
+			PageTitle
 		}
 	}
 </script>
@@ -120,6 +124,11 @@
 					width: 20px;
 					min-width: unset;
 					max-width: unset;
+				}
+			}
+			li.lll-e-f-desc{
+				label{
+					align-self: flex-start;
 				}
 			}
 		}
