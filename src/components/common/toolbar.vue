@@ -15,9 +15,6 @@
 
 <script>
 	import Btn from './btn.vue';
-	import axios from 'axios';
-	import basicConfig from '../../basicconfig.js';
-	import qs from 'querystring';
 	
 	export default {
 		data:function(){
@@ -25,22 +22,18 @@
 				searchKeywords: ''
 			}
 		},
+		props:['loadedTableData'],
+		computed:{
+			loadingstatus:function(){
+				return this.loadingstatus?'iconsearch':'iconbanyuan';
+			}
+		},
 		methods:{
 			search: function(){
-				let tpm = this.$refs.searchshowbtn.className;
-				this.$refs.searchshowbtn.className = tpm.replace('iconsearch','iconbanyuan');
 				this.searchKeywords = this.searchKeywords.trim();
 				if(this.searchKeywords.length>0){
-					axios({
-						method:'post',
-						url: `${basicConfig.apihost}product/search`,
-						data: qs.stringify({searchkeywords:this.searchKeywords})
-					}).then(function(res){
-						window.console.log(res);
-					})
-					.catch(function(err){
-						throw err;
-					});
+					this.$emit('searchproduct',this.searchKeywords);
+				
 				}
 			}
 		},
