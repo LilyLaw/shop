@@ -5,7 +5,7 @@
 			<Btn incon="新增" toUrl="/addproduct" type="basic"/>
 		</div>
 		<div class="search">
-			<input type="text" class="inputtext">
+			<input type="text" class="inputtext" v-model="searchKeywords">
 			<span @click="search">
 				<i class="icon iconfont iconsearch" ref="searchshowbtn"></i>
 			</span>
@@ -15,12 +15,33 @@
 
 <script>
 	import Btn from './btn.vue';
+	import axios from 'axios';
+	import basicConfig from '../../basicconfig.js';
+	import qs from 'querystring';
 	
 	export default {
+		data:function(){
+			return {
+				searchKeywords: ''
+			}
+		},
 		methods:{
 			search: function(){
 				let tpm = this.$refs.searchshowbtn.className;
 				this.$refs.searchshowbtn.className = tpm.replace('iconsearch','iconbanyuan');
+				this.searchKeywords = this.searchKeywords.trim();
+				if(this.searchKeywords.length>0){
+					axios({
+						method:'post',
+						url: `${basicConfig.apihost}product/search`,
+						data: qs.stringify({searchkeywords:this.searchKeywords})
+					}).then(function(res){
+						window.console.log(res);
+					})
+					.catch(function(err){
+						throw err;
+					});
+				}
 			}
 		},
 		components:{

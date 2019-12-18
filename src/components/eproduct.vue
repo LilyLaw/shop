@@ -78,7 +78,10 @@
 					url: this.getReqUrl,
 					data: qs.stringify(this.productData)
 				}).then(function(res){
-					window.console.log(res);
+					if(res.status===200&&res.data.status===1){ //操作成功
+						alert('Success!');
+						window.console.log(res)
+					}
 				}).catch(function(err){
 					throw err;
 				});
@@ -93,6 +96,7 @@
 				let pid = this.$route.params.id;
 				axios.get(`${basicConfig.apihost}product/${pid}`)
 					.then((res)=>{
+						window.console.log(res.data[0]);
 						this.productData = res.data[0];
 					}).catch((err)=>{ throw err; });
 			}else{
