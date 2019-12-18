@@ -1,45 +1,45 @@
 <template>
 	<div>
 		<PageTitle :pagetitle='pageTitle'></PageTitle>
-		<form :action="getReqUrl" method="post" class="lll-eproduct-form">
+		<div class="lll-eproduct-form">
 			<ul>
 				<li>
 					<label for="">名称：</label>
-					<input type="text" name="pname" required="required" :value="productData.product_name">
+					<input type="text" v-model="productData.product_name">
 				</li>
 				<li>
 					<label for="">价格：</label>
-					<input type="text" name="pprice" required="required" :value="productData.product_price">
+					<input type="number" v-model="productData.product_price">
 				</li>
 				<li class="lll-e-f-radio">
 					<label for="">状态：</label>
 					<span>
-						<input type="radio" name='status' value="1" :checked="productstatus"> 上架
+						<input type="radio" value="1" v-model="productData.product_status"> 上架
 					</span>
 					<span>
 						<!-- <i class="icon iconfont iconradio1"></i> -->
-						<input type="radio" name='status' value="0" :checked="!productstatus"> 下架
+						<input type="radio" value="0" v-model="productData.product_status"> 下架
 					</span>
 				</li>
 				<li class="lll-e-f-desc">
 					<label for="">详情：</label>
-					<froala :tag="'textarea'" name="pdes" :config="config" v-model="productData.product_description"></froala>
+					<froala :tag="'textarea'" :config="config" v-model="productData.product_description"></froala>
 				</li>
 				<li>
 					<label for=""></label>
-					<input type="text" name="pid" hidden="hidden" :value="productData._id">
-					<input type="submit">
+					<input type="text" hidden="hidden" v-model="productData._id">
+					<input type="submit" @click="submitData">
 				</li>
 			</ul>
-		</form>
+		</div>
 	</div>
-	
 </template>
 
 <script>
 	import basicConfig from '../basicconfig.js';
 	import axios from 'axios';
 	import PageTitle from './common/pagetitle.vue';
+	import qs from 'querystring';
 
 	export default {
 		name: 'Eproduct',
@@ -47,11 +47,11 @@
 			return {
 				pageTitle:'',
 				productData: {
-					id:0,
+					_id:0,
 					product_description:'',
 					product_name:'',
 					product_price:'',
-					product_status:''
+					product_status:1
 				},
 				config: {
 					placeholderText: 'Edit Your Product Description Here!',
@@ -66,9 +66,25 @@
 		computed: {
 			getReqUrl:function(){
 				return basicConfig.apihost+'addproduct';
+			}
+		},
+		methods:{
+			submitData(){
+				//1. 先检测必填项
+				this.checkValue();
+				//2. 再调接口
+				axios({
+					method:'post',
+					url: this.getReqUrl,
+					data: qs.stringify(this.productData)
+				}).then(function(res){
+					window.console.log(res);
+				}).catch(function(err){
+					throw err;
+				});
 			},
-			productstatus: function(){
-				return this.productData.product_status === 1;
+			checkValue(){
+				this.productData.product_name = this.productData.product_name.trim();
 			}
 		},
 		created:function(){
