@@ -23,12 +23,12 @@
 	@import './assets/iconfont/iconfont.css';
 
 	.content{
+		padding: 1.5rem 2rem;
 		width: calc(100% - @leftMenuWidth);
+		height: 100vh;
 		position: fixed;
 		right: 0;
-		padding: 1.5rem 2rem;
 		box-sizing: border-box;
-		height: 100vh;
 		overflow-y: scroll;
 	}
 </style>

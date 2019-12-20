@@ -33,7 +33,6 @@
 				this.searchKeywords = this.searchKeywords.trim();
 				if(this.searchKeywords.length>0){
 					this.$emit('searchproduct',this.searchKeywords);
-				
 				}
 			}
 		},
