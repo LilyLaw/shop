@@ -46,7 +46,7 @@
 	import basicConfig from '../basicconfig.js';
 	import axios from 'axios';
 	import PageTitle from './common/pagetitle.vue';
-	import qs from 'querystring';
+	// import qs from 'querystring';
 
 	export default {
 		name: 'Eproduct',
@@ -80,11 +80,18 @@
 		methods:{
 			submitData(){
 				this.checkValue(); //1. 先检测必填项
-				axios({	//2. 再调接口
-					method:'post',
-					url: this.getReqUrl,
-					data: qs.stringify(this.productData)
-				}).then(function(res){
+				
+				let fd = new FormData();
+				fd.append('_id',this.productData._id);
+				fd.append('product_description',this.productData.product_description);
+				fd.append('product_name',this.productData.product_name);
+				fd.append('product_price',this.productData.product_price);
+				fd.append('product_status',this.productData.product_status);
+				for(let i=0; i<this.productData.product_images.length; i++){
+					fd.append('product_images',this.productData.product_images[i]);
+				}
+				
+				axios.post(this.getReqUrl,fd).then(function(res){
 					if(res.status===200&&res.data.status===1){ //操作成功
 						alert('Success!');
 					}
@@ -102,7 +109,6 @@
 					if(reg.test(files[i].type)){
 						let tmpurl = this.getImgUrl(files[i]);
 						if(!this.productData.product_images){
-							window.console.log(222)
 							this.productData.product_images = [];
 						}
 						this.productImg.push(tmpurl);
@@ -134,9 +140,7 @@
 				this.pageTitle = '新增产品';
 			}
 		},
-		components:{
-			PageTitle
-		}
+		components:{ PageTitle }
 	}
 </script>
 

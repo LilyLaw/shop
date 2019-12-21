@@ -32,7 +32,7 @@ require('froala-editor/js/plugins/url.min.js');
 require('froala-editor/js/plugins/video.min.js');
 require('froala-editor/js/plugins/help.min.js');
 require('froala-editor/js/plugins/print.min.js');
-require('froala-editor/js/third_party/spell_checker.min.js');
+// require('froala-editor/js/third_party/spell_checker.min.js');
 require('froala-editor/js/plugins/special_characters.min.js');
 require('froala-editor/js/plugins/word_paste.min.js');
 
@@ -53,7 +53,7 @@ require('froala-editor/css/plugins/fullscreen.css');
 require('froala-editor/css/plugins/file.css');
 require('froala-editor/css/plugins/quick_insert.css');
 require('froala-editor/css/plugins/help.css');
-require('froala-editor/css/third_party/spell_checker.css');
+// require('froala-editor/css/third_party/spell_checker.css');
 require('froala-editor/css/plugins/special_characters.css');
 
 
