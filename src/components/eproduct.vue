@@ -12,12 +12,8 @@
 			</li>
 			<li class="lll-e-f-radio">
 				<label for="">状态：</label>
-				<span>
-					<input type="radio" value="1" v-model="productData.product_status"> 上架
-				</span>
-				<span>
-					<input type="radio" value="0" v-model="productData.product_status"> 下架
-				</span>
+				<span><input type="radio" value="1" v-model="productData.product_status"> 上架</span>
+				<span><input type="radio" value="0" v-model="productData.product_status"> 下架</span>
 			</li>
 			<li class="lll-e-f-img">
 				<label for="">图片：</label>
@@ -46,8 +42,6 @@
 	import basicConfig from '../basicconfig.js';
 	import axios from 'axios';
 	import PageTitle from './common/pagetitle.vue';
-	// import qs from 'querystring';
-
 	export default {
 		name: 'Eproduct',
 		data: function(){
@@ -73,14 +67,11 @@
 			}
 		},
 		computed: {
-			getReqUrl:function(){
-				return basicConfig.apihost+'addproduct';
-			}
+			getReqUrl:function(){ return basicConfig.apihost+'addproduct'; }
 		},
 		methods:{
 			submitData(){
 				this.checkValue(); //1. 先检测必填项
-				
 				let fd = new FormData();
 				fd.append('_id',this.productData._id);
 				fd.append('product_description',this.productData.product_description);
