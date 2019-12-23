@@ -125,7 +125,11 @@
 				let pid = this.$route.params.id;
 				axios.get(`${basicConfig.apihost}product/${pid}`)
 					.then((res)=>{
-						this.productData = res.data[0];
+						window.console.log(res);
+						this.productData = res.data;
+						res.data.product_images.map((item)=>{
+							this.productImg.push(`${basicConfig.apihost}${item.product_imgurl}`);
+						})
 					}).catch((err)=>{ throw err; });
 			}else{
 				this.pageTitle = '新增产品';
@@ -178,6 +182,7 @@
 						height: auto;
 					}
 					display: flex;
+					flex-wrap: wrap;
 					.upload{
 						width: 9.5rem;
 						height: 9.5rem;
