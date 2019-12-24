@@ -18,7 +18,10 @@
 			<li class="lll-e-f-img">
 				<label for="">图片：</label>
 				<div class="images">
-					<img :src="item" alt="产品图片" class="e-img" v-for="(item,index) of productImg" :key="index">
+					<div class="e-image" v-for="(item,index) of productImg" :key="index">
+						<img :src="item" alt="产品图片" />
+						<i class="icon iconfont iconerror" @click="deleteImg(index)"></i>
+					</div>
 					<div class="upload">
 						<input type="file" accept=".png, .jpg, .jpeg" @change="uploadImg" multiple>
 						<i class="icon iconfont iconicon-test"></i><span>上传</span>
@@ -59,9 +62,7 @@
 				config: {
 					placeholderText: 'Edit Your Product Description Here!',
 					events: {
-						// 'initialized': function () {
-						// 	window.console.log(this.html.get());
-						// }
+						// 'initialized': function () { window.console.log(this.html.get()); }
 					}
 				}
 			}
@@ -79,11 +80,16 @@
 				fd.append('product_price',this.productData.product_price);
 				fd.append('product_status',this.productData.product_status);
 				for(let i=0; i<this.productData.product_images.length; i++){
-					fd.append('product_images',this.productData.product_images[i]);
+
+					if(this.productData.product_images[i]._id){
+						fd.append('product_images',this.productData.product_images[i]._id);
+					}else{
+						fd.append('product_images',this.productData.product_images[i]);
+					}
 				}
-				
 				axios.post(this.getReqUrl,fd).then(function(res){
-					if(res.status===200&&res.data.status===1){ //操作成功
+					window.console.log(res)
+					if(res.status===200){ //操作成功
 						alert('Success!');
 					}
 				}).catch(function(err){
@@ -107,7 +113,7 @@
 					}
 				}
 			},
-			getImgUrl(file){
+			getImgUrl(file){	// 构造图片url
 				let url = null;
 				if(window.createObjectURL !== undefined){
 					url = window.createObjectURL(file);
@@ -117,20 +123,22 @@
 					url = window.webkitURL.createObjectURL(file);
 				}
 				return url;
+			},
+			deleteImg(index){
+				this.productImg.splice(index,1); // 删除渲染中的那个
+				this.productData.product_images.splice(index,1); // 删除要传输到接口中的那个
 			}
 		},
 		created:function(){
 			if(this.$route.params.id){
 				this.pageTitle = '修改产品';
 				let pid = this.$route.params.id;
-				axios.get(`${basicConfig.apihost}product/${pid}`)
-					.then((res)=>{
-						window.console.log(res);
-						this.productData = res.data;
-						res.data.product_images.map((item)=>{
-							this.productImg.push(`${basicConfig.apihost}${item.product_imgurl}`);
-						})
-					}).catch((err)=>{ throw err; });
+				axios.get(`${basicConfig.apihost}product/${pid}`).then((res)=>{
+					this.productData = res.data;
+					res.data.product_images.map((item)=>{
+						this.productImg.push(`${basicConfig.apihost}${item.product_imgurl}`);
+					})
+				}).catch((err)=>{ throw err; });
 			}else{
 				this.pageTitle = '新增产品';
 			}
@@ -177,9 +185,24 @@
 			}
 			&.lll-e-f-img{
 				.images{
-					> .e-img{
+					> * {
+						margin: 0.3rem;
+					}
+					> .e-image{
 						width: 9.5rem;
 						height: auto;
+						position: relative;
+						> img{
+							width: 100%;
+							height: auto;
+						}
+						> i{
+							position: absolute;
+							top: -0.5rem;
+							right: -0.5rem;
+							font-size: 1.2rem;
+							cursor: pointer;
+						}
 					}
 					display: flex;
 					flex-wrap: wrap;
