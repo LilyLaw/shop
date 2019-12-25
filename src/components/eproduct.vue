@@ -80,7 +80,6 @@
 				fd.append('product_price',this.productData.product_price);
 				fd.append('product_status',this.productData.product_status);
 				for(let i=0; i<this.productData.product_images.length; i++){
-
 					if(this.productData.product_images[i]._id){
 						fd.append('product_images',this.productData.product_images[i]._id);
 					}else{
@@ -88,13 +87,10 @@
 					}
 				}
 				axios.post(this.getReqUrl,fd).then(function(res){
-					window.console.log(res)
 					if(res.status===200){ //操作成功
 						alert('Success!');
 					}
-				}).catch(function(err){
-					throw err;
-				});
+				}).catch(function(err){ throw err; });
 			},
 			checkValue(){
 				this.productData.product_name = this.productData.product_name.trim();

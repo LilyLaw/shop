@@ -4,6 +4,8 @@
 		<Toolbar @searchproduct = 'searchproduct' status='loadedTableData'/>
 		<ListTable v-if="loadedTableData" :tabledata='tableData' ></ListTable>
 		<Loading v-else>加载中</Loading>
+		<Pagination :currentpage='currentpage' :allpage='allpage' :pagesize='pagesize' 
+							@toPrvePage="toPrvePage" @toNextPage="toNextPage" @toOnePage="toOnePage"/>
 		<Toast />
 		<!-- <Dialog /> -->
 	</div>
@@ -20,6 +22,7 @@
 	import Toast from './common/toast.vue';
 	// import Dialog from './common/dialog.vue';
 	import qs from 'querystring';
+	import Pagination from './common/pagination.vue';
 	
 	export default {
 		name: 'ProductList',
@@ -29,12 +32,13 @@
 					thead:[],
 					tbody:[]
 				},
+				currentpage:1,
+				allpage: 10,
+				pagesize: 5
 			}
 		},
 		computed:{
-			loadedTableData: function(){
-				return this.tableData.tbody.length>=1;
-			}
+			loadedTableData: function(){ return this.tableData.tbody.length>=1; }
 		},
 		methods:{
 			searchproduct:function(searchKeywords){
@@ -49,27 +53,51 @@
 						let tmp = [item._id,item.product_name,item.product_price,item.product_status===1?'在售':'已下架'];
 						that.tableData.tbody.push(tmp);
 					});
-				})
-				.catch(function(err){
-					throw err;
-				});
+				}).catch(function(err){ throw err; });
+			},
+			toPrvePage(){
+				if(parseInt(this.currentpage)>1){
+					this.currentpage--;
+					this.renderProducts();
+				}
+			},
+			toNextPage(){
+				if(parseInt(this.currentpage)<this.allpage){
+					this.currentpage++;
+					this.renderProducts();
+				}
+			},
+			toOnePage(despage){
+				let intdp = parseInt(despage)
+				if(intdp&&intdp!==parseInt(this.currentpage)){
+					this.currentpage = intdp;
+					this.renderProducts();
+				}
+			},
+			renderProducts(){
+				let that = this;
+				axios({
+					method:'post',
+					url: `${basicConfig.apihost}productlist`,
+					data: qs.stringify({currentpage: this.currentpage,pagesize: this.pagesize})
+				}).then(function(res){
+					that.tableData.thead = ['名称','价格','状态'];
+					that.tableData.tbody = [];	// 先清空原来渲染的产品
+					res.data.products.map((item)=>{
+						let tmp = [item._id,item.product_name,item.product_price,item.product_status===1?'在售':'已下架'];
+						that.tableData.tbody.push(tmp);
+					});
+					let pages = parseInt(res.data.allcount)/5, leftnum = parseInt(res.data.allcount)%5;
+					if(leftnum > 0){ pages++; }
+					that.allpage = pages;
+				}).catch(function(err){ if(err) throw err; });
 			}
 		},
 		created: function(){
-			let that = this;
-			axios.get(`${basicConfig.apihost}productlist`)
-				.then(function(res){
-					that.tableData.thead = ['名称','价格','状态'];
-					res.data.map((item)=>{
-						let tmp = [item._id,item.product_name,item.product_price,item.product_status===1?'在售':'已下架'];
-						that.tableData.tbody.push(tmp);
-					})
-				}).catch(function(err){
-					if(err) throw err;
-				});
+			this.renderProducts();
 		},
 		components:{
-			PageTitle,Toolbar,ListTable,Loading,Toast//,Dialog
+			PageTitle,Toolbar,ListTable,Pagination,Loading,Toast//,Dialog
 		}
 	}
 </script>

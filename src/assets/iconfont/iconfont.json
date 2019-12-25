@@ -83,6 +83,13 @@
       "unicode_decimal": 58897
     },
     {
+      "icon_id": "2898370",
+      "name": "arrow_down",
+      "font_class": "right",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
       "icon_id": "3716165",
       "name": "radio",
       "font_class": "radio1",
@@ -109,6 +116,13 @@
       "font_class": "icon-test",
       "unicode": "e61e",
       "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "7321889",
+      "name": "arrow_down",
+      "font_class": "left",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
     },
     {
       "icon_id": "7404517",
