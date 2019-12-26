@@ -11,39 +11,36 @@
 		</ul>
 		<div class="pageinput">
 			<div class="jumppage">
-				跳至<input type="text">页
+				跳至<input type="text" @change='changpage'>页
 			</div>
 			<div>
-				每页<input type="text">个
+				每页<input type="text" @change='changepagesize'>个
 			</div>
 		</div>
 	</div>
 </template>
 
-<script>
-	// 分页规则:
-	// 1. 第一页和最后一页必须有
-	// 2. 当前页数的前后必须各有两页,总共五页
-	// 3. 剩余的用...代替
-	
+<script>	
 	export default{
 		name: 'Pagination',
-		props:['currentpage','allpage','pagesize'],
+		props: {
+			currentpage: Number,
+			allpage: Number,
+			pagesize: Number,
+		},
 		computed:{
 			renderType(){
-				let tmpp = parseInt(this.allpage);
-				let tmpc = parseInt(this.currentpage);
 				if(this.allpage>6){
-					if(tmpc-2<=0){	//直接渲染前5个
-						return [1,2,3,4,5,'...',tmpp];
-					}else if(tmpc+2>=0){ // 直接渲染后5个
-						return [1,'...',tmpp-4,tmpp-3,tmpp-2,tmpp-1,tmpp];
+					if(this.currentpage-2<=0){	//直接渲染前5个
+						return [1,2,3,4,5,'...',this.allpage];
+					}else if(this.currentpage+2>=0){ // 直接渲染后5个
+						return [1,'...',this.allpage-4,this.allpage-3,this.allpage-2,this.allpage-1,this.allpage];
 					}else{ // 渲染中间的
-						return [1,'...',tmpc-2,tmpc-1,tmpc,tmpc+1,tmpc+2,'...',tmpp];
+						return [1,'...',this.currentpage-2,this.currentpage-1,this.currentpage,this.currentpage+1,this.currentpage+2,'...',this.allpage];
 					}
 				}else{	// 全部渲染出来
 					let arr = [];
-					for(let i=0;i<tmpp;i++){ arr.push[i]; }
+					for(let i=0;i<this.allpage;i++){ arr.push(i+1); }
 					return arr;
 				}
 			}
@@ -51,10 +48,15 @@
 		methods:{
 			toPrevPage(){ this.$emit('toPrvePage'); },
 			toNextPage(){ this.$emit('toNextPage'); },
-			toOnePage(despage){ this.$emit('toOnePage',despage); }
-		},
-		mounted: function(){
-			window.console.log(this.currentpage,this.allpage,this.pagesize);
+			toOnePage(despage){ this.$emit('toOnePage',despage); },
+			changpage(e){
+				let newpage = parseInt(e.target.value);
+				if(newpage !== this.currentpage && newpage < this.pagesize){ this.$emit('changepage',newpage); }
+			},
+			changepagesize(e){
+				let newpagesize = parseInt(e.target.value);
+				if(newpagesize !== this.pagesize){ this.$emit('changepagesize',newpagesize); }
+			}
 		}
 	}
 </script>

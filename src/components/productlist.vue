@@ -5,7 +5,8 @@
 		<ListTable v-if="loadedTableData" :tabledata='tableData' ></ListTable>
 		<Loading v-else>加载中</Loading>
 		<Pagination :currentpage='currentpage' :allpage='allpage' :pagesize='pagesize' 
-							@toPrvePage="toPrvePage" @toNextPage="toNextPage" @toOnePage="toOnePage"/>
+							@toPrvePage="toPrvePage" @toNextPage="toNextPage" @toOnePage="toOnePage"
+							@changepage="changepage" @changepagesize="changepagesize"/>
 		<Toast />
 		<!-- <Dialog /> -->
 	</div>
@@ -33,7 +34,7 @@
 					tbody:[]
 				},
 				currentpage:1,
-				allpage: 10,
+				allpage: 8,
 				pagesize: 5
 			}
 		},
@@ -74,6 +75,15 @@
 					this.renderProducts();
 				}
 			},
+			changepage(newpage){
+				this.currentpage = newpage;
+				this.renderProducts();
+			},
+			changepagesize(newpagesize){
+				this.pagesize = newpagesize;
+				this.currentpage = 1;
+				this.renderProducts();
+			},
 			renderProducts(){
 				let that = this;
 				axios({
@@ -87,7 +97,7 @@
 						let tmp = [item._id,item.product_name,item.product_price,item.product_status===1?'在售':'已下架'];
 						that.tableData.tbody.push(tmp);
 					});
-					let pages = parseInt(res.data.allcount)/5, leftnum = parseInt(res.data.allcount)%5;
+					let pages = parseInt(parseInt(res.data.allcount)/parseInt(that.pagesize)), leftnum = parseInt(res.data.allcount)%5;
 					if(leftnum > 0){ pages++; }
 					that.allpage = pages;
 				}).catch(function(err){ if(err) throw err; });
