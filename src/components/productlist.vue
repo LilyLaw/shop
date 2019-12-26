@@ -103,12 +103,8 @@
 				}).catch(function(err){ if(err) throw err; });
 			}
 		},
-		created: function(){
-			this.renderProducts();
-		},
-		components:{
-			PageTitle,Toolbar,ListTable,Pagination,Loading,Toast//,Dialog
-		}
+		created: function(){ this.renderProducts(); },
+		components:{ PageTitle,Toolbar,ListTable,Pagination,Loading,Toast/*,Dialog*/ }
 	}
 </script>
 

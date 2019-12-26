@@ -36,9 +36,7 @@
 				}
 			}
 		},
-		components:{
-			Btn
-		}
+		components:{ Btn }
 	}
 </script>
 

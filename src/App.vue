@@ -10,9 +10,7 @@
 	
 	export default {
 		name: 'app',
-		components:{
-			LeftMenu
-		}
+		components:{ LeftMenu }
 	}
 	
 </script>
