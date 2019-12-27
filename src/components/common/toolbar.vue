@@ -1,7 +1,7 @@
 <template>
 	<div class="lll-toolbar">
 		<div class="delete">
-			<Btn incon="删除" toope="/delete" type="danger"/>
+			<Btn incon="删除" toope="/delete" type="danger" @clickme="deleteall"/>
 			<Btn incon="新增" toUrl="/addproduct" type="basic"/>
 		</div>
 		<div class="search">
@@ -24,17 +24,14 @@
 		},
 		props:['loadedTableData'],
 		computed:{
-			loadingstatus:function(){
-				return this.loadingstatus?'iconsearch':'iconbanyuan';
-			}
+			loadingstatus:function(){ return this.loadingstatus?'iconsearch':'iconbanyuan'; }
 		},
 		methods:{
-			search: function(){
+			search(){
 				this.searchKeywords = this.searchKeywords.trim();
-				if(this.searchKeywords.length>0){
-					this.$emit('searchproduct',this.searchKeywords);
-				}
-			}
+				if(this.searchKeywords.length>0) this.$emit('searchproduct',this.searchKeywords);
+			},
+			deleteall(){ this.$emit('deleteall'); }
 		},
 		components:{ Btn }
 	}
@@ -56,6 +53,7 @@
 				border-bottom-right-radius: 0;
 			}
 			span{
+				.allcenter;
 				background: @lllblue;
 				width: 2.5rem;
 				height: 1.875rem;
@@ -72,7 +70,6 @@
 					margin-top: 0.8rem;
 					margin-right: 0.25rem;
 				}				
-				.allcenter;
 			}
 		}
 	}

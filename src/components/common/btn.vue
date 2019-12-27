@@ -8,9 +8,7 @@
 		name: 'Btn',
 		props: ['toUrl','incon','type'],
 		methods:{
-			clickme(){
-				this.$emit('deleteme');
-			}
+			clickme(){ this.$emit('clickme'); }
 		}
 	}
 </script>

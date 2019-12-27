@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<PageTitle pagetitle='产品列表'></PageTitle>
-		<Toolbar @searchproduct = 'searchproduct' status='loadedTableData'/>
-		<ListTable v-if="loadedTableData" :tabledata='tableData' ></ListTable>
+		<Toolbar @searchproduct='searchproduct' status='loadedTableData' @deleteall="deleteall"/>
+		<ListTable v-if="loadedTableData" :tabledata='tableData' @transallcheck='transallcheck'></ListTable>
 		<Loading v-else>加载中</Loading>
 		<Pagination :currentpage='currentpage' :allpage='allpage' :pagesize='pagesize' 
 							@toPrvePage="toPrvePage" @toNextPage="toNextPage" @toOnePage="toOnePage"
@@ -33,27 +33,39 @@
 					thead:[],
 					tbody:[]
 				},
+				searchkeywords: '',
 				currentpage:1,
 				allpage: 8,
-				pagesize: 5
+				pagesize: 5,
+				allcheck:[]
 			}
 		},
 		computed:{
 			loadedTableData: function(){ return this.tableData.tbody.length>=1; }
 		},
 		methods:{
-			searchproduct:function(searchKeywords){
+			searchproduct:function(searchkeywords){
+				this.searchkeywords = searchkeywords.trim();
 				let that = this;
 				axios({
 					method:'post',
 					url: `${basicConfig.apihost}product/search`,
-					data: qs.stringify({searchkeywords:searchKeywords})
+					data: qs.stringify({searchkeywords:searchkeywords,pagesize:this.pagesize})
 				}).then(function(res){
 					that.tableData.tbody = [];
-					res.data.map((item)=>{
+					res.data.products.map((item)=>{
+						// 重新渲染表格
 						let tmp = [item._id,item.product_name,item.product_price,item.product_status===1?'在售':'已下架'];
 						that.tableData.tbody.push(tmp);
 					});
+					// 重新渲染分页
+					that.currentpage = 1;
+					let pagenum = parseInt(res.data.count/that.pagesize);
+					if(res.data.count%that.pagesize!=0){
+						pagenum++;
+					}
+					window.console.log(pagenum);
+					that.allpage = pagenum;
 				}).catch(function(err){ throw err; });
 			},
 			toPrvePage(){
@@ -85,11 +97,16 @@
 				this.renderProducts();
 			},
 			renderProducts(){
-				let that = this;
+				let that = this,queryparams = {};
+				if(that.searchkeywords.length>0){
+					queryparams.searchkeywords = that.searchkeywords;
+				}
+				queryparams.currentpage = that.currentpage;
+				queryparams.pagesize = that.pagesize;
 				axios({
 					method:'post',
 					url: `${basicConfig.apihost}productlist`,
-					data: qs.stringify({currentpage: this.currentpage,pagesize: this.pagesize})
+					data: qs.stringify(queryparams)
 				}).then(function(res){
 					that.tableData.thead = ['名称','价格','状态'];
 					that.tableData.tbody = [];	// 先清空原来渲染的产品
@@ -101,6 +118,18 @@
 					if(leftnum > 0){ pages++; }
 					that.allpage = pages;
 				}).catch(function(err){ if(err) throw err; });
+			},
+			transallcheck(arr){ this.allcheck = arr; },
+			deleteall(){
+				if(this.allcheck.length>0){
+					axios({
+						method: 'post',
+						url: `${basicConfig.apihost}product/delete/`,
+						data: qs.stringify({pids: this.allcheck})
+					})
+					.then((res)=>{ window.console.log(res); })
+					.catch(err=>{ throw err; });
+				}
 			}
 		},
 		created: function(){ this.renderProducts(); },

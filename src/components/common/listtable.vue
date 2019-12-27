@@ -22,9 +22,9 @@
 
 <script>
 	import Btn from './btn.vue';
-	// import axios from 'axios';
-	// import basicConfig from '../../basicconfig.js';
-	// import qs from 'querystring';
+	import axios from 'axios';
+	import basicConfig from '../../basicconfig.js';
+	import qs from 'querystring';
 
 	export default{
 		name: 'ListTable',
@@ -35,17 +35,13 @@
 			}
 		},
 		methods:{
-			deleteme(id){ this.deleteProduct([ id ]);	},
-			deleteAllcheck(){ 
-				// this.deleteProduct(this.allcheck); 
-			},
+			deleteme(id){ this.deleteProduct(id);	},
 			deleteProduct(arr){
-				window.console.log(arr);
-				// axios({
-				// 	method: 'post',
-				// 	url: `${basicConfig.apihost}product/delete/`,
-				// 	data: qs.stringify(arr)
-				// }).then(()=>{}).catch(err=>{ throw err; });
+				axios({
+					method: 'post',
+					url: `${basicConfig.apihost}product/delete/`,
+					data: qs.stringify({pids: arr})
+				}).then(()=>{}).catch(err=>{ throw err; });
 			},
 			checkall(){
 				if(this.allcheck.length === this.tabledata.tbody.length){
@@ -54,6 +50,7 @@
 					this.allcheck = [];
 					this.tabledata.tbody.map(item =>{ this.allcheck.push(item[0]); });
 				}
+				this.$emit('transallcheck',this.allcheck);
 			},
 			checkone(id){
 				let pos = this.allcheck.indexOf(id)
@@ -62,6 +59,7 @@
 				}else{	// 原先有，所以删掉
 					this.allcheck.splice(pos,1);
 				}
+				this.$emit('transallcheck',this.allcheck);
 			}
 		},
 		computed: {
@@ -75,6 +73,8 @@
 </script>
 
 <style scoped lang="less">
+	@import './commonVariable.less';
+	
 	table.lll-listtable{
 		width: 100%;
 		overflow: scroll;
@@ -115,6 +115,9 @@
 			}
 			tr:nth-child(2n){
 			}
+		}
+		.iconcheckbox_on{
+			color: @lllblue;
 		}
 	}
 </style>
