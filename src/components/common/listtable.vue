@@ -13,7 +13,7 @@
 				<td v-for="(v,index) of item" :key='index' v-show="index!==0">{{v}}</td>
 				<td>
 					<Btn incon="编辑" :toUrl='"/addproduct/"+item[0]' type="basic"/>
-					<Btn incon="删除" toope='/delete' type="danger" @deleteme='deleteme(item[0])'/>
+					<Btn incon="删除" toope='/delete' type="danger" @clickme='deleteme(item[0])'/>
 				</td>
 			</tr>
 		</tbody>

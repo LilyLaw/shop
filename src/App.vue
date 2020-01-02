@@ -10,7 +10,13 @@
 	
 	export default {
 		name: 'app',
-		components:{ LeftMenu }
+		components:{ LeftMenu },
+		beforeCreate:function(){
+			// 检查是否登录
+			if(!localStorage.getItem('username')){
+				this.$router.push({path:'/login'});// 跳转到登录
+			}
+		}
 	}
 	
 </script>

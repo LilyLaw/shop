@@ -10,7 +10,6 @@
 		<Toast />
 		<!-- <Dialog /> -->
 	</div>
-	
 </template>
 
 <script>
@@ -46,27 +45,7 @@
 		methods:{
 			searchproduct:function(searchkeywords){
 				this.searchkeywords = searchkeywords.trim();
-				let that = this;
-				axios({
-					method:'post',
-					url: `${basicConfig.apihost}product/search`,
-					data: qs.stringify({searchkeywords:searchkeywords,pagesize:this.pagesize})
-				}).then(function(res){
-					that.tableData.tbody = [];
-					res.data.products.map((item)=>{
-						// 重新渲染表格
-						let tmp = [item._id,item.product_name,item.product_price,item.product_status===1?'在售':'已下架'];
-						that.tableData.tbody.push(tmp);
-					});
-					// 重新渲染分页
-					that.currentpage = 1;
-					let pagenum = parseInt(res.data.count/that.pagesize);
-					if(res.data.count%that.pagesize!=0){
-						pagenum++;
-					}
-					window.console.log(pagenum);
-					that.allpage = pagenum;
-				}).catch(function(err){ throw err; });
+				this.renderProducts();
 			},
 			toPrvePage(){
 				if(parseInt(this.currentpage)>1){
@@ -108,6 +87,7 @@
 					url: `${basicConfig.apihost}productlist`,
 					data: qs.stringify(queryparams)
 				}).then(function(res){
+					window.console.log(res);
 					that.tableData.thead = ['名称','价格','状态'];
 					that.tableData.tbody = [];	// 先清空原来渲染的产品
 					res.data.products.map((item)=>{
@@ -115,7 +95,7 @@
 						that.tableData.tbody.push(tmp);
 					});
 					let pages = parseInt(parseInt(res.data.allcount)/parseInt(that.pagesize)), leftnum = parseInt(res.data.allcount)%5;
-					if(leftnum > 0){ pages++; }
+					if(leftnum > 0) pages++;
 					that.allpage = pages;
 				}).catch(function(err){ if(err) throw err; });
 			},

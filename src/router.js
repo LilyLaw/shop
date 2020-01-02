@@ -4,6 +4,7 @@ import IndexV from './components/index.vue'
 import ProductList from './components/productlist.vue'
 import OrderList from './components/orderlist.vue'
 import Eproduct from './components/eproduct.vue'
+import Loginpage from './components/loginpage.vue'
 
 Vue.use(Router);
 
@@ -16,6 +17,8 @@ const routes = [
 		path:'/orderlist',component:OrderList
 	},{
 		path:'/addproduct/:id?',component:Eproduct
+	},{
+		path:'/login',component:Loginpage
 	}
 ];
 
