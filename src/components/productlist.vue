@@ -24,6 +24,8 @@
 	import qs from 'querystring';
 	import Pagination from './common/pagination.vue';
 	
+	axios.defaults.withCredentials = true;
+	
 	export default {
 		name: 'ProductList',
 		data: function(){
@@ -88,15 +90,19 @@
 					data: qs.stringify(queryparams)
 				}).then(function(res){
 					window.console.log(res);
-					that.tableData.thead = ['名称','价格','状态'];
-					that.tableData.tbody = [];	// 先清空原来渲染的产品
-					res.data.products.map((item)=>{
-						let tmp = [item._id,item.product_name,item.product_price,item.product_status===1?'在售':'已下架'];
-						that.tableData.tbody.push(tmp);
-					});
-					let pages = parseInt(parseInt(res.data.allcount)/parseInt(that.pagesize)), leftnum = parseInt(res.data.allcount)%5;
-					if(leftnum > 0) pages++;
-					that.allpage = pages;
+					if(res.data.status===0&&res.data.msg==="您尚未登录"){
+						localStorage.removeItem('username');
+					}else{
+						that.tableData.thead = ['名称','价格','状态'];
+						that.tableData.tbody = [];	// 先清空原来渲染的产品
+						res.data.products.map((item)=>{
+							let tmp = [item._id,item.product_name,item.product_price,item.product_status===1?'在售':'已下架'];
+							that.tableData.tbody.push(tmp);
+						});
+						let pages = parseInt(parseInt(res.data.allcount)/parseInt(that.pagesize)), leftnum = parseInt(res.data.allcount)%5;
+						if(leftnum > 0) pages++;
+						that.allpage = pages;
+					}
 				}).catch(function(err){ if(err) throw err; });
 			},
 			transallcheck(arr){ this.allcheck = arr; },

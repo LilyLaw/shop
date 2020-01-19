@@ -18,6 +18,8 @@
 	import BasicConfig from '../basicconfig.js';
 	import axios from 'axios';
 	
+	axios.defaults.withCredentials = true;
+	
 	export default{
 		name: 'LeftMenu',
 		data: function(){
@@ -43,10 +45,14 @@
 				// 退出，调接口
 				axios.get(`${BasicConfig.apihost}logout`)
 				.then(()=>{
-					localStorage.removeItem('username');
+					sessionStorage.removeItem('username');
 					this.$router.push({path:'/login'});
 				}).catch((err)=>{ throw err; })
 			}
+		},
+		created: function(){
+			this.username = localStorage.getItem('username')||'尚未登录';
+			window.console.log(this.username);
 		}
 	}
 </script>

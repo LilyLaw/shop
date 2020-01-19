@@ -18,6 +18,7 @@
 
 <script>
 	import Btn from './btn.vue';
+	
 	export default {
 		name: 'Dialog',
 		components:{ Btn }

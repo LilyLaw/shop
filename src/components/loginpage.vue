@@ -13,6 +13,8 @@
 	import axios from 'axios';
 	import qs from 'querystring';
 	
+	axios.defaults.withCredentials = true;
+	
 	export default {
 		data: function(){
 			return {
@@ -26,6 +28,7 @@
 				axios.post(`${BasicConfig.apihost}login`,qs.stringify({ username: this.username, password: this.password }))
 				.then((res)=>{
 					if(res.data.status === 1){
+						window.console.log(res);
 						localStorage.setItem('username',that.username); // 设置localstorage
 						this.$router.go(-1);// 跳回去原来的页面
 					}else{ alert(res.data.msg); }

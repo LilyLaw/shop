@@ -12,7 +12,7 @@
 		name: 'app',
 		components:{ LeftMenu },
 		beforeCreate:function(){
-			// 检查是否登录
+			// 检查是否登录 按道理说应该检查cookie
 			if(!localStorage.getItem('username')){
 				this.$router.push({path:'/login'});// 跳转到登录
 			}

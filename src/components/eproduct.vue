@@ -45,6 +45,9 @@
 	import basicConfig from '../basicconfig.js';
 	import axios from 'axios';
 	import PageTitle from './common/pagetitle.vue';
+	
+	axios.defaults.withCredentials = true;
+	
 	export default {
 		name: 'Eproduct',
 		data: function(){

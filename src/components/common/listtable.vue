@@ -26,6 +26,8 @@
 	import basicConfig from '../../basicconfig.js';
 	import qs from 'querystring';
 
+	axios.defaults.withCredentials = true;
+
 	export default{
 		name: 'ListTable',
 		props: ['tabledata'],
